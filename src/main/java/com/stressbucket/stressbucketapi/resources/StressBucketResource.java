@@ -1,21 +1,33 @@
 package com.stressbucket.stressbucketapi.resources;
 
+import com.stressbucket.stressbucketapi.domain.Bucket;
+import com.stressbucket.stressbucketapi.services.BucketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/buckets")
 public class StressBucketResource {
 
-    @PostMapping("/create")
-    public String createBucket(@RequestBody Map<String, Object> bucketMap) {
-        String bucketName = (String) bucketMap.get("bucketName");
-        int stressLevel = (int) bucketMap.get("stressLevel");
+    @Autowired
+    BucketService bucketService;
 
-        return bucketName + ", " + stressLevel;
+    @PostMapping("/create")
+    public ResponseEntity<Map<String, String>> createBucket(@RequestBody Map<String, Object> bucketMap) {
+        String bucketName = (String) bucketMap.get("bucketName");
+        Integer stressLevel = (Integer) bucketMap.get("stressLevel");
+
+        Bucket bucket = bucketService.createBucket(bucketName, stressLevel);
+        Map<String, String> map = new HashMap<>();
+        map.put("message", "Bucket created");
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

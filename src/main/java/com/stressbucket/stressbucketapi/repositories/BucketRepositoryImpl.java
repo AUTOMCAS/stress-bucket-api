@@ -1,0 +1,56 @@
+package com.stressbucket.stressbucketapi.repositories;
+
+import com.stressbucket.stressbucketapi.domain.Bucket;
+import com.stressbucket.stressbucketapi.exceptions.BucketException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+
+@Repository
+public class BucketRepositoryImpl implements BucketRepository{
+
+    private static final String SQL_CREATE = "INSERT INTO BUCKETS(BUCKET_ID, BUCKET_NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?)";
+    private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, BUCKET_NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE BUCKET_ID = ?";
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Override
+    public Integer create(String bucketName, Integer stressLevel) throws BucketException {
+        try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, bucketName);
+                ps.setInt(2, stressLevel);
+                return ps;
+            }, keyHolder);
+            return (Integer) keyHolder.getKeys().get("BUCKET_ID");
+        } catch (Exception e){
+            throw new BucketException("Failed to create bucket. Invalid details.");
+        }
+    }
+
+    @Override
+    public Bucket findByName(String bucketName) throws BucketException {
+        return null;
+    }
+
+    @Override
+    public Bucket findById(Integer bucketId) throws BucketException {
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId}, bucketRowMapper);
+    }
+
+    private RowMapper<Bucket> bucketRowMapper = ((rs, rowNum) -> {
+        return new Bucket(rs.getInt("BUCKET_ID"),
+                rs.getString("BUCKET_NAME"),
+                rs.getInt("STRESS_LEVEL"));
+    });
+}

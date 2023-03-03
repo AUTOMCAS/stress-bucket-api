@@ -1,4 +1,4 @@
-package com.stressbucket.stressbucketapi.resources;
+package com.stressbucket.stressbucketapi.controller;
 
 import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.service.BucketService;

@@ -2,7 +2,7 @@ package com.stressbucket.stressbucketapi.service;
 
 import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.exceptions.BucketException;
-import com.stressbucket.stressbucketapi.repositories.BucketRepository;
+import com.stressbucket.stressbucketapi.repository.BucketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

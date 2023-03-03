@@ -1,4 +1,4 @@
-package com.stressbucket.stressbucketapi.repositories;
+package com.stressbucket.stressbucketapi.repository;
 
 import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.exceptions.BucketException;

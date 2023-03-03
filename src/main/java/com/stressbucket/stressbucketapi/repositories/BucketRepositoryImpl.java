@@ -1,6 +1,6 @@
 package com.stressbucket.stressbucketapi.repositories;
 
-import com.stressbucket.stressbucketapi.domain.Bucket;
+import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.exceptions.BucketException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +20,7 @@ public class BucketRepositoryImpl implements BucketRepository{
     private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, BUCKET_NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE BUCKET_ID = ?";
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Integer create(String bucketName, Integer stressLevel) throws BucketException {

@@ -1,6 +1,6 @@
 package com.stressbucket.stressbucketapi.repositories;
 
-import com.stressbucket.stressbucketapi.domain.Bucket;
+import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.exceptions.BucketException;
 
 public interface BucketRepository {

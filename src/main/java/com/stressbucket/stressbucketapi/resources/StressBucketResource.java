@@ -1,7 +1,7 @@
 package com.stressbucket.stressbucketapi.resources;
 
-import com.stressbucket.stressbucketapi.domain.Bucket;
-import com.stressbucket.stressbucketapi.services.BucketService;
+import com.stressbucket.stressbucketapi.model.Bucket;
+import com.stressbucket.stressbucketapi.service.BucketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class StressBucketResource {
 
     @Autowired
-    BucketService bucketService;
+    private BucketService bucketService;
 
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> createBucket(@RequestBody Map<String, Object> bucketMap) {

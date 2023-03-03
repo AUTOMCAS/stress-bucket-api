@@ -1,4 +1,4 @@
-package com.stressbucket.stressbucketapi.domain;
+package com.stressbucket.stressbucketapi.model;
 
 public class Bucket {
     private Integer bucketId;

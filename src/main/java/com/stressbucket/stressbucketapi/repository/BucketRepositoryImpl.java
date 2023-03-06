@@ -20,6 +20,7 @@ public class BucketRepositoryImpl implements BucketRepository{
     private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, BUCKET_NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE BUCKET_ID = ?";
     private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE BUCKET_ID = ?";
     private static final String SQL_UPDATE = "UPDATE BUCKETS SET BUCKET_NAME = ?, STRESS_LEVEL = ? " + "WHERE BUCKET_ID = ?";
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

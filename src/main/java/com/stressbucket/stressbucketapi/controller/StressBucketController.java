@@ -3,7 +3,6 @@ package com.stressbucket.stressbucketapi.controller;
 import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.service.BucketService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +13,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/buckets")
-public class StressBucketResource {
+public class StressBucketController {
 
     @Autowired
     private BucketService bucketService;
 
     @PostMapping("")
-    public ResponseEntity<Map<String, String>> createBucket(@RequestBody Map<String, Object> bucketMap) {
+    public ResponseEntity<Bucket> createBucket(@RequestBody Map<String, Object> bucketMap) {
         String bucketName = (String) bucketMap.get("bucketName");
         Integer stressLevel = (Integer) bucketMap.get("stressLevel");
 
         Bucket bucket = bucketService.createBucket(bucketName, stressLevel);
-        Map<String, String> map = new HashMap<>();
-        map.put("message", "Bucket created");
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(bucket, HttpStatus.CREATED);
     }
 
     @GetMapping("/{bucketId}")

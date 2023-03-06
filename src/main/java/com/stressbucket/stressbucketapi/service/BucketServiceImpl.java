@@ -3,7 +3,6 @@ package com.stressbucket.stressbucketapi.service;
 import com.stressbucket.stressbucketapi.exceptions.BadReqestException;
 import com.stressbucket.stressbucketapi.exceptions.ResourceNotfoundException;
 import com.stressbucket.stressbucketapi.model.Bucket;
-import com.stressbucket.stressbucketapi.exceptions.BucketException;
 import com.stressbucket.stressbucketapi.repository.BucketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +16,9 @@ public class BucketServiceImpl implements BucketService{
     private BucketRepository bucketRepository;
 
     @Override
-    public Bucket createBucket(String bucketName, Integer stressLevel) throws BucketException {
+    public Bucket createBucket(String bucketName, Integer stressLevel) throws BadReqestException {
         if (stressLevel > 100 || stressLevel < 0) {
-            throw new BucketException("Starting level must be between 0 - 100");
+            throw new BadReqestException("Starting level must be between 0 - 100");
         }
 
         Integer bucketId = bucketRepository.create(bucketName, stressLevel);

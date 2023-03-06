@@ -2,7 +2,6 @@ package com.stressbucket.stressbucketapi.repository;
 
 import com.stressbucket.stressbucketapi.exceptions.BadReqestException;
 import com.stressbucket.stressbucketapi.model.Bucket;
-import com.stressbucket.stressbucketapi.exceptions.BucketException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -25,7 +24,7 @@ public class BucketRepositoryImpl implements BucketRepository{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Integer create(String bucketName, Integer stressLevel) throws BucketException {
+    public Integer create(String bucketName, Integer stressLevel) throws BadReqestException {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
@@ -36,12 +35,12 @@ public class BucketRepositoryImpl implements BucketRepository{
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("BUCKET_ID");
         } catch (Exception e){
-            throw new BucketException("Failed to create bucket. Invalid details.");
+            throw new BadReqestException("Failed to create bucket. Invalid details.");
         }
     }
 
     @Override
-    public Bucket findById(Integer bucketId) throws BucketException {
+    public Bucket findById(Integer bucketId) throws BadReqestException {
         return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId}, bucketRowMapper);
     }
 
@@ -58,7 +57,7 @@ public class BucketRepositoryImpl implements BucketRepository{
     }
 
     @Override
-    public void update(Integer bucketId, Bucket bucket) throws BucketException {
+    public void update(Integer bucketId, Bucket bucket) throws BadReqestException {
         try {
             jdbcTemplate.update(SQL_UPDATE, new Object[]{bucket.getBucketName(), bucket.getStressLevel(), bucketId});
         }catch (Exception e) {

@@ -8,4 +8,6 @@ public interface BucketRepository {
 
     Bucket findById(Integer bucketId) throws BucketException;
 
+    void removeById(Integer bucketID);
+
 }

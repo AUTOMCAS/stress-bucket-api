@@ -1,5 +1,6 @@
 package com.stressbucket.stressbucketapi.repository;
 
+import com.stressbucket.stressbucketapi.exceptions.BadReqestException;
 import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.exceptions.BucketException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class BucketRepositoryImpl implements BucketRepository{
     private static final String SQL_CREATE = "INSERT INTO BUCKETS(BUCKET_ID, BUCKET_NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, BUCKET_NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE BUCKET_ID = ?";
     private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE BUCKET_ID = ?";
+    private static final String SQL_UPDATE = "UPDATE BUCKETS SET BUCKET_NAME = ?, STRESS_LEVEL = ? " + "WHERE BUCKET_ID = ?";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -53,5 +55,14 @@ public class BucketRepositoryImpl implements BucketRepository{
     @Override
     public void removeById(Integer bucketId) {
         jdbcTemplate.update(SQL_DELETE_BUCKET, new Object[]{bucketId});
+    }
+
+    @Override
+    public void update(Integer bucketId, Bucket bucket) throws BucketException {
+        try {
+            jdbcTemplate.update(SQL_UPDATE, new Object[]{bucket.getBucketName(), bucket.getStressLevel(), bucketId});
+        }catch (Exception e) {
+            throw new BadReqestException("Invalid request");
+        }
     }
 }

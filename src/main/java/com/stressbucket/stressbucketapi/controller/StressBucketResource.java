@@ -44,5 +44,14 @@ public class StressBucketResource {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @PutMapping("/{bucketId}")
+    public ResponseEntity<Map<String, Boolean>> updateBucket(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId, @RequestBody Bucket bucket){
+        bucketService.updateBucket(bucketId, bucket);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
 }
 

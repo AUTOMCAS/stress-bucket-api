@@ -1,5 +1,6 @@
 package com.stressbucket.stressbucketapi.service;
 
+import com.stressbucket.stressbucketapi.exceptions.BadReqestException;
 import com.stressbucket.stressbucketapi.exceptions.ResourceNotfoundException;
 import com.stressbucket.stressbucketapi.model.Bucket;
 import com.stressbucket.stressbucketapi.exceptions.BucketException;
@@ -35,5 +36,10 @@ public class BucketServiceImpl implements BucketService{
     public void removeBucket(Integer bucketId) throws ResourceNotfoundException {
         this.findBucketById(bucketId);
         bucketRepository.removeById(bucketId);
+    }
+
+    @Override
+    public void updateBucket(Integer bucketId, Bucket bucket) throws BadReqestException {
+        bucketRepository.update(bucketId, bucket);
     }
 }

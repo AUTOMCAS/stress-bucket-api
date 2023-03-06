@@ -39,15 +39,11 @@ public class BucketRepositoryImpl implements BucketRepository{
     }
 
     @Override
-    public Bucket findByName(String bucketName) throws BucketException {
-        return null;
-    }
-
-    @Override
     public Bucket findById(Integer bucketId) throws BucketException {
         return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId}, bucketRowMapper);
     }
 
+//    Convert row into an object
     private RowMapper<Bucket> bucketRowMapper = ((rs, rowNum) -> {
         return new Bucket(rs.getInt("BUCKET_ID"),
                 rs.getString("BUCKET_NAME"),

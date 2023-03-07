@@ -16,10 +16,10 @@ import java.sql.Statement;
 @Repository
 public class BucketRepositoryImpl implements BucketRepository{
 
-    private static final String SQL_CREATE = "INSERT INTO BUCKETS(BUCKET_ID, BUCKET_NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?)";
-    private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, BUCKET_NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE BUCKET_ID = ?";
-    private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE BUCKET_ID = ?";
-    private static final String SQL_UPDATE = "UPDATE BUCKETS SET BUCKET_NAME = ?, STRESS_LEVEL = ? " + "WHERE BUCKET_ID = ?";
+    private static final String SQL_CREATE = "INSERT INTO BUCKETS(ID, NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?)";
+    private static final String SQL_FIND_BY_ID = "SELECT ID, NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE ID = ?";
+    private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE ID = ?";
+    private static final String SQL_UPDATE = "UPDATE BUCKETS SET NAME = ?, STRESS_LEVEL = ? " + "WHERE ID = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -34,7 +34,7 @@ public class BucketRepositoryImpl implements BucketRepository{
                 ps.setInt(2, stressLevel);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("BUCKET_ID");
+            return (Integer) keyHolder.getKeys().get("ID");
         } catch (Exception e){
             throw new BadReqestException("Failed to create bucket. Invalid details.");
         }
@@ -47,8 +47,8 @@ public class BucketRepositoryImpl implements BucketRepository{
 
 //    Convert row into an object
     private RowMapper<Bucket> bucketRowMapper = ((rs, rowNum) -> {
-        return new Bucket(rs.getInt("BUCKET_ID"),
-                rs.getString("BUCKET_NAME"),
+        return new Bucket(rs.getInt("ID"),
+                rs.getString("NAME"),
                 rs.getInt("STRESS_LEVEL"));
     });
 

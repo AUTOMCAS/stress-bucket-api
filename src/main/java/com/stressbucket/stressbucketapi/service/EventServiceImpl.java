@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,9 +18,8 @@ public class EventServiceImpl implements EventService{
     private EventRepository eventRepository;
 
     @Override
-    public Event createEvent(Integer bucketId, String stressType, String description, Long eventTimeDate, Integer stressLevelChange, Integer resultingStressLevel) throws BadReqestException {
-        Integer eventId = eventRepository.create(bucketId, stressType, description, eventTimeDate, stressLevelChange, resultingStressLevel);
-
+    public Event createEvent(Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange, Integer resultingStressLevel) throws BadReqestException {
+        Integer eventId = eventRepository.create(bucketId, stressType, description, dateTime, stressLevelChange, resultingStressLevel);
         return eventRepository.findById(eventId);
     }
 

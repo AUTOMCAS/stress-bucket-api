@@ -1,20 +1,22 @@
 package com.stressbucket.stressbucketapi.model;
 
+import java.time.LocalDateTime;
+
 public class Event {
     private Integer eventId;
     private Integer bucketId;
     private String stressType;
     private String description;
-    private Long eventTimeDate;
+    private LocalDateTime timeDate;
     private Integer stressLevelChange;
     private Integer resultingStressLevel;
 
-    public Event(Integer eventId, Integer bucketId, String stressType, String description, Long eventTimeDate, Integer stressLevelChange, Integer resultingStressLevel) {
+    public Event(Integer eventId, Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange, Integer resultingStressLevel) {
         this.eventId = eventId;
         this.bucketId = bucketId;
         this.stressType = stressType;
         this.description = description;
-        this.eventTimeDate = eventTimeDate;
+        this.timeDate = timeDate;
         this.stressLevelChange = stressLevelChange;
         this.resultingStressLevel = resultingStressLevel;
     }
@@ -51,12 +53,12 @@ public class Event {
         this.description = description;
     }
 
-    public Long getEventTimeDate() {
-        return eventTimeDate;
+    public LocalDateTime getTimeDate() {
+        return timeDate;
     }
 
-    public void setEventTimeDate(Long eventTimeDate) {
-        this.eventTimeDate = eventTimeDate;
+    public void setTimeDate(LocalDateTime timeDate) {
+        this.timeDate = timeDate;
     }
 
     public Integer getStressLevelChange() {

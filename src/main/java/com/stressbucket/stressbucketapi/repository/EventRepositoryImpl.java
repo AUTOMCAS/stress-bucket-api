@@ -12,20 +12,21 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public class EventRepositoryImpl implements EventRepository {
 
-    private static final String SQL_CREATE = "INSERT INTO EVENTS(EVENT_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, EVENT_TIME_DATE, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_FIND_BY_ID = "SELECT EVENT_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, EVENT_TIME_DATE, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL " + "FROM EVENTS WHERE EVENT_ID = ?";
-    private static final String SQL_FIND_ALL = "SELECT EVENT_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, EVENT_TIME_DATE, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE BUCKET_ID = ?";
+    private static final String SQL_CREATE = "INSERT INTO EVENTS(ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_FIND_BY_ID = "SELECT ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL " + "FROM EVENTS WHERE ID = ?";
+    private static final String SQL_FIND_ALL = "SELECT ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE BUCKET_ID = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public Integer create(Integer bucketId, String stressType, String description, Long eventTimeDate, Integer stressLevelChange, Integer resultingStressLevel) throws BadReqestException {
+    public Integer create(Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange, Integer resultingStressLevel) throws BadReqestException {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
@@ -33,12 +34,12 @@ public class EventRepositoryImpl implements EventRepository {
                 ps.setInt(1, bucketId);
                 ps.setString(2, stressType);
                 ps.setString(3, description);
-                ps.setLong(4, eventTimeDate);
+                ps.setObject(4, dateTime);
                 ps.setInt(5, stressLevelChange);
                 ps.setInt(6, resultingStressLevel);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("EVENT_ID");
+            return (Integer) keyHolder.getKeys().get("ID");
         } catch (Exception e){
             throw new BadReqestException("Failed to create event. Invalid details." + e);
         }
@@ -55,12 +56,13 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     private RowMapper<Event> eventRowMapper = ((rs, rowNum) -> {
-        return new Event(rs.getInt("EVENT_ID"),
+        return new Event(rs.getInt("ID"),
                 rs.getInt("BUCKET_ID"),
                 rs.getString("STRESS_TYPE"),
                 rs.getString("DESCRIPTION"),
-                rs.getLong("EVENT_TIME_DATE"),
+                rs.getObject("DATE_TIME", LocalDateTime.class),
                 rs.getInt("STRESS_LEVEL_CHANGE"),
                 rs.getInt("RESULTING_STRESS_LEVEL"));
+
     });
 }

@@ -4,8 +4,12 @@ import com.stressbucket.stressbucketapi.exceptions.BadReqestException;
 import com.stressbucket.stressbucketapi.exceptions.ResourceNotfoundException;
 import com.stressbucket.stressbucketapi.model.Event;
 
-public interface EventRepository {
-    public Integer create(Integer bucketId, String stressType, String description, Long eventTimeDate, Integer stressChange, Integer resultingStressLevel) throws BadReqestException;
+import java.util.List;
 
-    public Event findById(Integer event_id) throws ResourceNotfoundException;
+public interface EventRepository {
+    Integer create(Integer bucketId, String stressType, String description, Long eventTimeDate, Integer stressChange, Integer resultingStressLevel) throws BadReqestException;
+
+    Event findById(Integer eventId) throws ResourceNotfoundException;
+
+    List<Event> findAll(Integer bucketId) throws ResourceNotfoundException;
 }

@@ -12,15 +12,18 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class EventRepositoryImpl implements EventRepository {
 
     private static final String SQL_CREATE = "INSERT INTO EVENTS(EVENT_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, EVENT_TIME_DATE, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT EVENT_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, EVENT_TIME_DATE, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL " + "FROM EVENTS WHERE EVENT_ID = ?";
+    private static final String SQL_FIND_ALL = "SELECT EVENT_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, EVENT_TIME_DATE, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE BUCKET_ID = ?";
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
-//    NEXTVAL('EVENTS_SQL'), ?, ?, ?, ?, ?, ?
+
     @Override
     public Integer create(Integer bucketId, String stressType, String description, Long eventTimeDate, Integer stressLevelChange, Integer resultingStressLevel) throws BadReqestException {
         try {
@@ -42,8 +45,13 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public Event findById(Integer event_id) throws ResourceNotfoundException {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{event_id}, eventRowMapper);
+    public Event findById(Integer eventId) throws ResourceNotfoundException {
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{eventId}, eventRowMapper);
+    }
+
+    @Override
+    public List<Event> findAll(Integer bucketId) throws ResourceNotfoundException {
+        return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{bucketId}, eventRowMapper);
     }
 
     private RowMapper<Event> eventRowMapper = ((rs, rowNum) -> {

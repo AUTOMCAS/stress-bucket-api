@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
 import javax.swing.plaf.nimbus.State;
@@ -25,12 +26,13 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public Integer create(String username, String password) throws AuthException {
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         try{
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(SQL_CREATE, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, username);
-                ps.setString(2, password);
+                ps.setString(2, hashedPassword);
                 return ps;
             }, keyHolder);
             return (Integer) keyHolder.getKeys().get("ID");
@@ -43,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository{
     public User findByUsernameAndPassword(String username, String password) throws AuthException {
         try {
             User user = jdbcTemplate.queryForObject(SQL_FIND_BY_USERNAME, new Object[]{username}, userRowMapper);
-            if(!password.equals(user.getPassword()))
+            if(!BCrypt.checkpw(password, user.getPassword()))
                 throw new AuthException("Invalid username/password");
             return user;
         }catch (Exception e) {

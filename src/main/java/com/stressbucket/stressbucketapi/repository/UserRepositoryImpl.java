@@ -18,6 +18,7 @@ public class UserRepositoryImpl implements UserRepository{
     private static final String SQL_CREATE = "INSERT INTO USERS(ID, USERNAME, PASSWORD) VALUES(NEXTVAL('USERS_SEQ'), ?, ?)";
     private static final String SQL_COUNT_BY_USERNAME = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ?";
     private static final String SQL_FIND_BY_ID = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE ID = ?";
+    private static final String SQL_FIND_BY_USERNAME = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE USERNAME = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -40,7 +41,14 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User findByUsernameAndPassword(String username, String password) throws AuthException {
-        return null;
+        try {
+            User user = jdbcTemplate.queryForObject(SQL_FIND_BY_USERNAME, new Object[]{username}, userRowMapper);
+            if(!password.equals(user.getPassword()))
+                throw new AuthException("Invalid username/password");
+            return user;
+        }catch (Exception e) {
+            throw new AuthException("Invalid username/password");
+        }
     }
 
     @Override

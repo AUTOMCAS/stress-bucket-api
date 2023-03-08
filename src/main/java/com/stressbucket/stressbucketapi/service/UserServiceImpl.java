@@ -14,11 +14,16 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User registerUser(String username, String password) throws AuthException {
+    public User register(String username, String password) throws AuthException {
         Integer count = userRepository.getCountByUsername(username);
         if(count > 0)
             throw new AuthException("Username already in use");
         Integer userId = userRepository.create(username, password);
         return userRepository.findById(userId);
+    }
+
+    @Override
+    public User validate(String username, String password) throws AuthException {
+        return userRepository.findByUsernameAndPassword(username, password);
     }
 }

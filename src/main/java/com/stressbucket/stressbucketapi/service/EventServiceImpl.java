@@ -22,12 +22,13 @@ public class EventServiceImpl implements EventService{
     private BucketRepository bucketRepository;
 
     @Override
-    public Event createEvent(Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange) throws BadReqestException {
+    public Event createEvent(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange) throws BadReqestException {
         try {
-            Bucket thisBucket = bucketRepository.findById(1);
-            this.updateBucket(thisBucket, stressLevelChange);
-            Integer updatedStressLevel = thisBucket.getStressLevel();
-            Integer eventId = eventRepository.create(bucketId, stressType, description, dateTime, stressLevelChange, updatedStressLevel);
+            Bucket bucket = bucketRepository.findById(bucketId);
+            this.updateBucket(bucket, stressLevelChange);
+            Integer updatedStressLevel = bucket.getStressLevel();
+
+            Integer eventId = eventRepository.create(userId, bucketId, stressType, description, dateTime, stressLevelChange, updatedStressLevel);
             return eventRepository.findById(eventId);
         } catch(Exception e) {
             throw new BadReqestException("Failed to create event. " + e.getMessage());
@@ -48,7 +49,7 @@ public class EventServiceImpl implements EventService{
             throw new Exception("Resulting stress level less than 0");
         }else {
             bucket.setStressLevel(updatedStressLevel);
-            bucketRepository.update(1, bucket);
+            bucketRepository.update(bucket.getId(), bucket);
         }
     }
 

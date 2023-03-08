@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventRepository {
-    Integer create(Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressChange, Integer resultingStressLevel) throws BadReqestException;
+    Integer create(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressChange, Integer resultingStressLevel) throws BadReqestException;
 
     Event findById(Integer eventId) throws ResourceNotfoundException;
 

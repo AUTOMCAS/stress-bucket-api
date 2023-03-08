@@ -27,6 +27,7 @@ public class EventController {
 
     @PostMapping("")
     public ResponseEntity<Event> createEvent(@RequestBody Map<String, Object> eventMap){
+        Integer userId = (Integer) eventMap.get("userId");
         Integer bucketId = (Integer) eventMap.get("bucketId");
         String stressType = (String) eventMap.get("stressType");
         String description = (String) eventMap.get("description");
@@ -36,7 +37,7 @@ public class EventController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateTime = LocalDateTime.parse(dateTimeString, formatter);
 
-        Event event = eventService.createEvent(bucketId, stressType, description, dateTime, stressLevelChange);
+        Event event = eventService.createEvent(userId, bucketId, stressType, description, dateTime, stressLevelChange);
 
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }

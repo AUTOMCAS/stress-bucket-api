@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventService {
-    Event createEvent(Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange) throws BadReqestException;
+    Event createEvent(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange) throws BadReqestException;
 
     List<Event> findAllEvents(Integer bucketId) throws ResourceNotfoundException;
 }

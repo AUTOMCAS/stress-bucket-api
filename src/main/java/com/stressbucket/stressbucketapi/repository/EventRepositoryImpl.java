@@ -19,8 +19,8 @@ import java.util.List;
 public class EventRepositoryImpl implements EventRepository {
 
     private static final String SQL_CREATE = "INSERT INTO EVENTS(ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_FIND_BY_ID = "SELECT ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL " + "FROM EVENTS WHERE ID = ?";
-    private static final String SQL_FIND_ALL = "SELECT ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE BUCKET_ID = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ? AND ID = ?";
+    private static final String SQL_FIND_ALL = "SELECT ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -47,13 +47,13 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public Event findById(Integer eventId) throws ResourceNotfoundException {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{eventId}, eventRowMapper);
+    public Event findById(Integer userId, Integer bucketId, Integer eventId) throws ResourceNotfoundException {
+        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, bucketId, eventId}, eventRowMapper);
     }
 
     @Override
-    public List<Event> findAll(Integer bucketId) throws ResourceNotfoundException {
-        return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{bucketId}, eventRowMapper);
+    public List<Event> findAll(Integer userId, Integer bucketId) throws ResourceNotfoundException {
+        return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{userId, bucketId}, eventRowMapper);
     }
 
     private RowMapper<Event> eventRowMapper = ((rs, rowNum) -> {

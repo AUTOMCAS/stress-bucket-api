@@ -10,5 +10,5 @@ import java.util.List;
 public interface EventService {
     Event createEvent(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange) throws BadReqestException;
 
-    List<Event> findAllEvents(Integer bucketId) throws ResourceNotfoundException;
+    List<Event> findAllEvents(Integer userId, Integer bucketId) throws ResourceNotfoundException;
 }

@@ -29,7 +29,7 @@ public class EventServiceImpl implements EventService{
             Integer updatedStressLevel = bucket.getStressLevel();
 
             Integer eventId = eventRepository.create(userId, bucketId, stressType, description, dateTime, stressLevelChange, updatedStressLevel);
-            return eventRepository.findById(eventId);
+            return eventRepository.findById(userId, bucketId, eventId);
         } catch(Exception e) {
             throw new BadReqestException("Failed to create event. " + e.getMessage());
         }
@@ -37,8 +37,8 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
-    public List<Event> findAllEvents(Integer bucketId) throws ResourceNotfoundException {
-        return eventRepository.findAll(bucketId);
+    public List<Event> findAllEvents(Integer userId, Integer bucketId) throws ResourceNotfoundException {
+        return eventRepository.findAll(userId, bucketId);
     }
 
     private void updateBucket(Bucket bucket, Integer stressLevelChange) throws Exception{

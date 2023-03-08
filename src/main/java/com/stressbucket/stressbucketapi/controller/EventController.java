@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/api/buckets/{bucketId}/events")
 public class EventController {
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -43,10 +43,10 @@ public class EventController {
     }
 
     @GetMapping("")
-    public  ResponseEntity<List<Event>> findAllEvents(HttpServletRequest request) {
-        Integer bucketId = 1;
+    public  ResponseEntity<List<Event>> findAllEvents(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId) {
+        Integer userId = 1;
 
-        List<Event> events = eventService.findAllEvents(bucketId);
+        List<Event> events = eventService.findAllEvents(userId, bucketId);
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
 }

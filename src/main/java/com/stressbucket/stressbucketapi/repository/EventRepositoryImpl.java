@@ -69,6 +69,5 @@ public class EventRepositoryImpl implements EventRepository {
                 rs.getObject("DATE_TIME", LocalDateTime.class),
                 rs.getInt("STRESS_LEVEL_CHANGE"),
                 rs.getInt("RESULTING_STRESS_LEVEL"));
-
     });
 }

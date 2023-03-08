@@ -41,6 +41,11 @@ public class EventServiceImpl implements EventService{
         return eventRepository.findAll(userId, bucketId);
     }
 
+    @Override
+    public Event findEventById(Integer userId, Integer bucketId, Integer eventId) throws ResourceNotfoundException {
+        return eventRepository.findById(userId, bucketId, eventId);
+    }
+
     private void updateBucket(Bucket bucket, Integer stressLevelChange) throws Exception{
         Integer updatedStressLevel = bucket.getStressLevel() + stressLevelChange;
         if (updatedStressLevel > 100) {

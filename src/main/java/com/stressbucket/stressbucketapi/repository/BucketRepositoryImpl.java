@@ -43,7 +43,11 @@ public class BucketRepositoryImpl implements BucketRepository{
 
     @Override
     public Bucket findById(Integer bucketId) throws BadReqestException {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId}, bucketRowMapper);
+        try {
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId}, bucketRowMapper);
+        }catch (Exception e) {
+            throw new BadReqestException("Event not found");
+        }
     }
 
 //    Convert row into an object
@@ -55,8 +59,15 @@ public class BucketRepositoryImpl implements BucketRepository{
     });
 
     @Override
-    public void removeById(Integer bucketId) {
-        jdbcTemplate.update(SQL_DELETE_BUCKET, new Object[]{bucketId});
+    public void removeById(Integer bucketId) throws BadReqestException {
+        try {
+            jdbcTemplate.update(SQL_DELETE_BUCKET, new Object[]{bucketId});
+        }catch (Exception e) {
+            if (e.getMessage() == "Incorrect result size: expected 1, actual 0") {
+                throw new BadReqestException("Event not found");
+            } else {
+            throw new BadReqestException("" + e.getMessage());
+        }}
     }
 
     @Override

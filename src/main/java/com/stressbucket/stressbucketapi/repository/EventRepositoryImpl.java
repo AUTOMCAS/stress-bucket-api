@@ -48,7 +48,11 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Event findById(Integer userId, Integer bucketId, Integer eventId) throws ResourceNotfoundException {
-        return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, bucketId, eventId}, eventRowMapper);
+        try {
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, bucketId, eventId}, eventRowMapper);
+        } catch (Exception e) {
+            throw new ResourceNotfoundException("Event not found");
+        }
     }
 
     @Override

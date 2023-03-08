@@ -49,4 +49,12 @@ public class EventController {
         List<Event> events = eventService.findAllEvents(userId, bucketId);
         return new ResponseEntity<>(events, HttpStatus.OK);
     }
+
+    @GetMapping("/{eventId}")
+    public ResponseEntity<Event> findEventById(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId, @PathVariable("eventId") Integer eventId) {
+        Integer userId = 1;
+
+        Event event = eventService.findEventById(userId, bucketId, eventId);
+        return new ResponseEntity<>(event, HttpStatus.OK);
+    }
 }

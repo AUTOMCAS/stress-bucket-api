@@ -6,7 +6,7 @@ import com.stressbucket.stressbucketapi.model.Bucket;
 
 
 public interface BucketService {
-    Bucket createBucket(String bucketName, Integer stressLevel) throws BadReqestException;
+    Bucket createBucket(Integer userId, String name, Integer stressLevel) throws BadReqestException;
 
     Bucket findBucketById(Integer bucketId) throws ResourceNotfoundException;
 

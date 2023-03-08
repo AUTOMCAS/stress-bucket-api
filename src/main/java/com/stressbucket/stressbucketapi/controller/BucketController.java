@@ -13,17 +13,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/buckets")
-public class StressBucketController {
+public class BucketController {
 
     @Autowired
     private BucketService bucketService;
 
     @PostMapping("")
     public ResponseEntity<Bucket> createBucket(@RequestBody Map<String, Object> bucketMap) {
-        String bucketName = (String) bucketMap.get("name");
+        Integer userId = (Integer) bucketMap.get("userId");
+        String name = (String) bucketMap.get("name");
         Integer stressLevel = (Integer) bucketMap.get("stressLevel");
 
-        Bucket bucket = bucketService.createBucket(bucketName, stressLevel);
+        Bucket bucket = bucketService.createBucket(userId, name, stressLevel);
         return new ResponseEntity<>(bucket, HttpStatus.CREATED);
     }
 

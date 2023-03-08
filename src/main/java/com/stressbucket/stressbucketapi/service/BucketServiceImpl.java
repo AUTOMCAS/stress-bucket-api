@@ -16,12 +16,12 @@ public class BucketServiceImpl implements BucketService{
     private BucketRepository bucketRepository;
 
     @Override
-    public Bucket createBucket(String bucketName, Integer stressLevel) throws BadReqestException {
+    public Bucket createBucket(Integer userId, String name, Integer stressLevel) throws BadReqestException {
         if (stressLevel > 100 || stressLevel < 0) {
             throw new BadReqestException("Starting level must be between 0 - 100");
         }
 
-        Integer bucketId = bucketRepository.create(bucketName, stressLevel);
+        Integer bucketId = bucketRepository.create(userId, name, stressLevel);
         return bucketRepository.findById(bucketId);
     }
 

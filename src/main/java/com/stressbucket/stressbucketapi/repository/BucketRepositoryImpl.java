@@ -16,15 +16,15 @@ import java.sql.Statement;
 @Repository
 public class BucketRepositoryImpl implements BucketRepository{
 
-    private static final String SQL_CREATE = "INSERT INTO BUCKETS(ID, USER_ID, NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?, ?)";
-    private static final String SQL_FIND_BY_ID = "SELECT ID, USER_ID, NAME, STRESS_LEVEL FROM BUCKETS WHERE ID = ? AND USER_ID = ?";
-    private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE ID = ? AND USER_ID = ?";
-    private static final String SQL_UPDATE = "UPDATE BUCKETS SET NAME = ?, STRESS_LEVEL = ? WHERE ID = ? AND USER_ID = ?";
+    private static final String SQL_CREATE = "INSERT INTO BUCKETS(BUCKET_ID, USER_ID, NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?, ?)";
+    private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, USER_ID, NAME, STRESS_LEVEL FROM BUCKETS WHERE BUCKET_ID = ? AND USER_ID = ?";
+    private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE BUCKET_ID = ? AND USER_ID = ?";
+    private static final String SQL_UPDATE = "UPDATE BUCKETS SET NAME = ?, STRESS_LEVEL = ? WHERE BUCKET_ID = ? AND USER_ID = ?";
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
      private RowMapper<Bucket> bucketRowMapper = ((rs, rowNum) -> {
-        return new Bucket(rs.getInt("ID"),
+        return new Bucket(rs.getInt("BUCKET_ID"),
                 rs.getInt("USER_ID"),
                 rs.getString("NAME"),
                 rs.getInt("STRESS_LEVEL"));
@@ -41,7 +41,7 @@ public class BucketRepositoryImpl implements BucketRepository{
                 ps.setInt(3, stressLevel);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("ID");
+            return (Integer) keyHolder.getKeys().get("BUCKET_ID");
         } catch (Exception e){
             throw new BadReqestException("Failed to create bucket. Invalid details." + e);
         }

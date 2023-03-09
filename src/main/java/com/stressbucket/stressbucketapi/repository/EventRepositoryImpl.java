@@ -18,15 +18,15 @@ import java.util.List;
 @Repository
 public class EventRepositoryImpl implements EventRepository {
 
-    private static final String SQL_CREATE = "INSERT INTO EVENTS(ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_FIND_BY_ID = "SELECT ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ? AND ID = ?";
-    private static final String SQL_FIND_ALL = "SELECT ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ?";
+    private static final String SQL_CREATE = "INSERT INTO EVENTS(EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_FIND_BY_ID = "SELECT EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ? AND EVENT_ID = ?";
+    private static final String SQL_FIND_ALL = "SELECT EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private RowMapper<Event> eventRowMapper = ((rs, rowNum) -> {
-        return new Event(rs.getInt("ID"),
+        return new Event(rs.getInt("EVENT_ID"),
                 rs.getInt("USER_ID"),
                 rs.getInt("BUCKET_ID"),
                 rs.getString("STRESS_TYPE"),
@@ -51,7 +51,7 @@ public class EventRepositoryImpl implements EventRepository {
                 ps.setInt(7, resultingStressLevel);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("ID");
+            return (Integer) keyHolder.getKeys().get("EVENT_ID");
         } catch (Exception e){
             throw new BadReqestException("Failed to create event. Invalid details." + e);
         }

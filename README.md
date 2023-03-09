@@ -7,5 +7,9 @@
 `
 
 delete db
-`dropdb -f stressbucket_db
-`
+`dropdb -f stressbucket_db`
+
+
+dropdb -f stressbucket_db
+createdb stressbucket_db
+psql stressbucket_db < stressbucket_db.sql

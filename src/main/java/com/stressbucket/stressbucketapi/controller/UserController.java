@@ -45,7 +45,7 @@ public class UserController {
         String token = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
                 .setIssuedAt(new Date(timestamp))
                 .setExpiration(new Date(timestamp + Constants.TOKEN_VALIDITY))
-                .claim("userId", user.getId())
+                .claim("userId", user.getUserId())
                 .claim("username", user.getUsername())
                 .compact();
         Map<String, String> map = new HashMap<>();

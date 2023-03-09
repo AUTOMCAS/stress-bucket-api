@@ -15,10 +15,10 @@ import java.sql.Statement;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{
-    private static final String SQL_CREATE = "INSERT INTO USERS(ID, USERNAME, PASSWORD) VALUES(NEXTVAL('USERS_SEQ'), ?, ?)";
+    private static final String SQL_CREATE = "INSERT INTO USERS(USER_ID, USERNAME, PASSWORD) VALUES(NEXTVAL('USERS_SEQ'), ?, ?)";
     private static final String SQL_COUNT_BY_USERNAME = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ?";
-    private static final String SQL_FIND_BY_ID = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE ID = ?";
-    private static final String SQL_FIND_BY_USERNAME = "SELECT ID, USERNAME, PASSWORD FROM USERS WHERE USERNAME = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT USER_ID, USERNAME, PASSWORD FROM USERS WHERE USER_ID = ?";
+    private static final String SQL_FIND_BY_USERNAME = "SELECT USER_ID, USERNAME, PASSWORD FROM USERS WHERE USERNAME = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository{
                 ps.setString(2, hashedPassword);
                 return ps;
             }, keyHolder);
-            return (Integer) keyHolder.getKeys().get("ID");
+            return (Integer) keyHolder.getKeys().get("USER_ID");
         }catch (Exception e) {
             throw new AuthException("Invalid details. Failed to create user" + e);
         }
@@ -64,7 +64,7 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
-        return new User(rs.getInt("ID"),
+        return new User(rs.getInt("USER_ID"),
                 rs.getString("USERNAME"),
                 rs.getString("PASSWORD"));
     });

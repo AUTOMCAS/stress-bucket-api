@@ -54,7 +54,7 @@ public class EventServiceImpl implements EventService{
             throw new Exception("Resulting stress level less than 0");
         }else {
             bucket.setStressLevel(updatedStressLevel);
-            bucketRepository.update(userId, bucket.getId(), bucket);
+            bucketRepository.update(userId, bucket.getBucketId(), bucket);
         }
     }
 

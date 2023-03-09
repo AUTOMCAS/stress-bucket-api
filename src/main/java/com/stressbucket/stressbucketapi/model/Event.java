@@ -3,7 +3,7 @@ package com.stressbucket.stressbucketapi.model;
 import java.time.LocalDateTime;
 
 public class Event {
-    private Integer id;
+    private Integer eventId;
     private Integer userId;
     private Integer bucketId;
     private String stressType;
@@ -12,12 +12,23 @@ public class Event {
     private Integer stressLevelChange;
     private Integer resultingStressLevel;
 
-    public Integer getId() {
-        return id;
+    public Event(Integer eventId, Integer userId, Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange, Integer resultingStressLevel) {
+        this.eventId = eventId;
+        this.userId = userId;
+        this.bucketId = bucketId;
+        this.stressType = stressType;
+        this.description = description;
+        this.timeDate = timeDate;
+        this.stressLevelChange = stressLevelChange;
+        this.resultingStressLevel = resultingStressLevel;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Integer eventId) {
+        this.eventId = eventId;
     }
 
     public Integer getUserId() {
@@ -76,16 +87,7 @@ public class Event {
         this.resultingStressLevel = resultingStressLevel;
     }
 
-    public Event(Integer id, Integer userId, Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange, Integer resultingStressLevel) {
-        this.id = id;
-        this.userId = userId;
-        this.bucketId = bucketId;
-        this.stressType = stressType;
-        this.description = description;
-        this.timeDate = timeDate;
-        this.stressLevelChange = stressLevelChange;
-        this.resultingStressLevel = resultingStressLevel;
-    }
+
 
 
 

@@ -1,22 +1,22 @@
 package com.stressbucket.stressbucketapi.model;
 
 public class User {
-    private Integer id;
+    private Integer userId;
     private String username;
     private String password;
 
-    public User(Integer id, String username, String password) {
-        this.id = id;
+    public User(Integer userId, String username, String password) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

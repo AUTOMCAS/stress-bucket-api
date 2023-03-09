@@ -1,24 +1,24 @@
 package com.stressbucket.stressbucketapi.model;
 
 public class Bucket {
-    private Integer id;
+    private Integer bucketId;
     private Integer userId;
     private String name;
     private Integer stressLevel;
 
-    public Bucket(Integer id, Integer userId, String name, Integer stressLevel) {
-        this.id = id;
+    public Bucket(Integer bucketId, Integer userId, String name, Integer stressLevel) {
+        this.bucketId = bucketId;
         this.userId = userId;
         this.name = name;
         this.stressLevel = stressLevel;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getBucketId() {
+        return bucketId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setBucketId(Integer bucketId) {
+        this.bucketId = bucketId;
     }
 
     public Integer getUserId() {

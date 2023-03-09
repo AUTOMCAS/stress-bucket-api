@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @Transactional
@@ -46,13 +47,18 @@ public class EventServiceImpl implements EventService{
         return eventRepository.findById(userId, bucketId, eventId);
     }
 
+    @Override
+    public List<Event> findEventByStressType(Integer userId, Integer bucketId, String stressType) throws ResourceNotfoundException {
+        return eventRepository.findByStressType(userId, bucketId, stressType);
+    }
+
     private void updateBucketStressLevel(Integer userId, Bucket bucket, Integer stressLevelChange) throws Exception{
         Integer updatedStressLevel = bucket.getStressLevel() + stressLevelChange;
         if (updatedStressLevel > 100) {
             throw new Exception("Resulting stress level exceeds 100");
         } else if (updatedStressLevel < 0) {
             throw new Exception("Resulting stress level less than 0");
-        }else {
+        } else {
             bucket.setStressLevel(updatedStressLevel);
             bucketRepository.update(userId, bucket.getBucketId(), bucket);
         }

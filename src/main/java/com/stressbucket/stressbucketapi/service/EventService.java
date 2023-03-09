@@ -13,4 +13,6 @@ public interface EventService {
     List<Event> findAllEvents(Integer userId, Integer bucketId) throws ResourceNotfoundException;
 
     Event findEventById(Integer userId, Integer bucketId, Integer eventId) throws ResourceNotfoundException;
+
+    List<Event> findEventByStressType(Integer userId, Integer bucketId, String stressType) throws ResourceNotfoundException;
 }

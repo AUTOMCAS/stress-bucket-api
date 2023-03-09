@@ -21,6 +21,7 @@ public class EventRepositoryImpl implements EventRepository {
     private static final String SQL_CREATE = "INSERT INTO EVENTS(EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL) VALUES(NEXTVAL('EVENTS_SEQ'), ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ? AND EVENT_ID = ?";
     private static final String SQL_FIND_ALL = "SELECT EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ?";
+    private static final String SQL_FIND_BY_STRESS_TYPE = "SELECT EVENT_ID, USER_ID, BUCKET_ID, STRESS_TYPE, DESCRIPTION, DATE_TIME, STRESS_LEVEL_CHANGE, RESULTING_STRESS_LEVEL FROM EVENTS WHERE USER_ID = ? AND BUCKET_ID = ? AND STRESS_TYPE = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -69,6 +70,11 @@ public class EventRepositoryImpl implements EventRepository {
     @Override
     public List<Event> findAll(Integer userId, Integer bucketId) throws ResourceNotfoundException {
         return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{userId, bucketId}, eventRowMapper);
+    }
+
+    @Override
+    public List<Event> findByStressType(Integer userId, Integer bucketId, String stressType) throws ResourceNotfoundException {
+       return jdbcTemplate.query(SQL_FIND_BY_STRESS_TYPE, new Object[]{userId, bucketId, stressType}, eventRowMapper);
     }
 
 }

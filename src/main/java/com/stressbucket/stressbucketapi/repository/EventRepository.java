@@ -13,4 +13,6 @@ public interface EventRepository {
     Event findById(Integer userId, Integer bucketId, Integer eventId) throws ResourceNotfoundException;
 
     List<Event> findAll(Integer userId, Integer bucketId) throws ResourceNotfoundException;
+
+    List<Event> findByStressType(Integer userId, Integer bucketId, String stressType) throws ResourceNotfoundException;
 }

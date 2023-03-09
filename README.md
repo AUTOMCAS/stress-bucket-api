@@ -109,10 +109,14 @@ Requirements: PostgreSQL setup and running.
 
 Create the database and load the SQL seed file:
 From inside the main directory:
-`createdb stressbucket_db
-psql stressbucket_db < stressbucket_db.sql`
+```
+createdb stressbucket_db
+psql stressbucket_db < stressbucket_db.sql
+```
 
 Drop DB and re-seed:
-`dropdb -f stressbucket_db
+```
+dropdb -f stressbucket_db
 createdb stressbucket_db
-psql stressbucket_db < stressbucket_db.sql`
+psql stressbucket_db < stressbucket_db.sql
+```

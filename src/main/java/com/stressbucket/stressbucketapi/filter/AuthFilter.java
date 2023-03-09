@@ -18,35 +18,26 @@ import java.io.IOException;
 // Filter intercepts request and checks token validity
 public class AuthFilter extends GenericFilterBean {
 
-
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
         String authHeader = httpRequest.getHeader("Authorization");
-        if(authHeader != null) {
-            String[] authHeaderArr = authHeader.split("Bearer ");
-            if(authHeaderArr.length > 1 && authHeaderArr[1] != null) {
-                String token = authHeaderArr[1];
-                try {
-                    Dotenv dotenv = Dotenv.load();
-                    Claims claims = Jwts.parser().setSigningKey(dotenv.get("JWT_SECRET_KEY"))
-                            .parseClaimsJws(token).getBody();
-                    httpRequest.setAttribute("userId", Integer.parseInt(claims.get("userId").toString()));
-                }catch (Exception e) {
-                    httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "invalid/expired token");
-                    return;
-                }
-            } else {
-                httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token must be Bearer [token]");
-                return;
-            }
-        } else {
-            httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token must be provided");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Authorization token must be provided in the form 'Bearer [token]'");
             return;
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+
+        String token = authHeader.substring(7);
+
+        try {
+            Dotenv dotenv = Dotenv.load();
+            Claims claims = Jwts.parser().setSigningKey(dotenv.get("JWT_SECRET_KEY")).parseClaimsJws(token).getBody();
+            httpRequest.setAttribute("userId", Integer.parseInt(claims.get("userId").toString()));
+            filterChain.doFilter(servletRequest, servletResponse);
+        } catch (Exception e) {
+            httpResponse.sendError(HttpStatus.FORBIDDEN.value(), "Invalid or expired token");
+        }
     }
 }

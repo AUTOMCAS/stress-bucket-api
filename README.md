@@ -22,8 +22,8 @@ Management of:
 
 ## Endpoints
 Response body is in JSON format.
-User login generates a JWT token.
-Token is required for successful requests and responses to buckets and events endpoints.
+User login generates a JWT token with a 20 minute expiry.
+A valid token is required for successful requests and responses to buckets and events endpoints.
 Token must be provided with `Authorization` header in the form `Bearer [token]`
 
 ### USERS

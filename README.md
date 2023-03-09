@@ -1,15 +1,99 @@
 # Stress Bucket API
+The stress bucket is a model to help understand stress and wellbeing.
+![stressbucket](https://mhukcdn.s3.eu-west-2.amazonaws.com/wp-content/uploads/2018/06/29152418/stress-bucketforblog-722x434.png)
 
-## Database setup
+Backend Stress Bucket API.
 
-`createdb stressbucket_db`  
-`psql stressbucket_db < stressbucket_db.sql
-`
+Management of:
+- Users.
+- A user's "Stress bucket", representing stress level.
+- Events that alter a user's stress level.
 
-delete db
-`dropdb -f stressbucket_db`
+## Technologies
+
+- Spring Boot.
+- Java.
+- PostgreSQL.
+- Password encryption with Bcrypt.
+- JWT for payload encryption.
 
 
-dropdb -f stressbucket_db
+## Endpoints
+Response body is in JSON format.
+User login generates a JWT token.
+Token is required for successful requests and responses to buckets and events endpoints.
+Token must be provided with `Authorization` header in the form `Bearer [token]`
+
+### USERS
+Register a user:
+`POST /api/users/register`
+`{
+"username": "User",
+"password": "password"
+}`
+
+Login:
+`POST /api/users/login`
+`{
+"username": "User",
+"password": "password"
+}`
+
+### BUCKETS
+Create a Stress Bucket: 
+`POST /api/buckets`
+JSON request body:
+`{
+"name": "Chris' bucket 3",
+"stressLevel": 50
+}`
+
+Get Bucket by ID:
+`GET /api/buckets/{bucketId}`
+
+Delete Bucket by ID:
+`DELETE /api/buckets/{bucketId}`
+
+Update Bucket by ID:
+`PUT /api/buckets/{bucketId}`
+JSON request body:
+`{
+"name": "Updated bucket",
+"stressLevel": 60
+}`
+
+### EVENTS
+Create an Event for a Bucket:
+`POST /api/buckets/{bucketId}/events`
+JSON request body:
+`{
+"stressType": "Release",
+"description": "Pet dog",
+"dateTime": "2019-02-03 10:08:02",
+"stressLevelChange": 10
+}`
+
+Get all Events for a Bucket:
+`GET /api/buckets/{bucketId}/events`
+
+Get Events by ID for a Bucket:
+`GET /api/buckets/{bucketId}/events/{eventId}`
+
+Get Events by Stress Type for a Bucket:
+`GET /api/buckets/{bucketId}/events/stressType/Release`
+
+
+## Setup
+
+### Database
+Requirements: PostgreSQL setup and running.
+
+Create the database and load the SQL seed file:
+From inside the main directory:
+`createdb stressbucket_db
+psql stressbucket_db < stressbucket_db.sql`
+
+Drop DB and re-seed:
+`dropdb -f stressbucket_db
 createdb stressbucket_db
-psql stressbucket_db < stressbucket_db.sql
+psql stressbucket_db < stressbucket_db.sql`

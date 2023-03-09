@@ -23,6 +23,12 @@ public class UserRepositoryImpl implements UserRepository{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
+        return new User(rs.getInt("USER_ID"),
+                rs.getString("USERNAME"),
+                rs.getString("PASSWORD"));
+    });
+
     @Override
     public Integer create(String username, String password) throws AuthException {
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
@@ -59,13 +65,7 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public User findById(Integer userId) {
-
         return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId}, userRowMapper);
     }
 
-    private RowMapper<User> userRowMapper = ((rs, rowNum) -> {
-        return new User(rs.getInt("USER_ID"),
-                rs.getString("USERNAME"),
-                rs.getString("PASSWORD"));
-    });
 }

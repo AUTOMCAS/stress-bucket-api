@@ -8,9 +8,9 @@ import com.stressbucket.stressbucketapi.model.Bucket;
 public interface BucketService {
     Bucket createBucket(Integer userId, String name, Integer stressLevel) throws BadReqestException;
 
-    Bucket findBucketById(Integer bucketId) throws ResourceNotfoundException;
+    Bucket findBucketById(Integer userId, Integer bucketId) throws ResourceNotfoundException;
 
-    void removeBucket(Integer bucketId) throws ResourceNotfoundException;
+    void removeBucket(Integer userId, Integer bucketId) throws ResourceNotfoundException;
 
-    void updateBucket(Integer bucketId, Bucket bucket) throws BadReqestException;
+    void updateBucket(Integer userId, Integer bucketId, Bucket bucket) throws BadReqestException;
     }

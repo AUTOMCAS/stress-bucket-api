@@ -26,9 +26,8 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping("")
-    public ResponseEntity<Event> createEvent(@RequestBody Map<String, Object> eventMap){
-        Integer userId = (Integer) eventMap.get("userId");
-        Integer bucketId = (Integer) eventMap.get("bucketId");
+    public ResponseEntity<Event> createEvent(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId, @RequestBody Map<String, Object> eventMap){
+        Integer userId = (Integer) request.getAttribute("userId");
         String stressType = (String) eventMap.get("stressType");
         String description = (String) eventMap.get("description");
         String dateTimeString = (String) eventMap.get("dateTime");
@@ -44,7 +43,7 @@ public class EventController {
 
     @GetMapping("")
     public  ResponseEntity<List<Event>> findAllEvents(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId) {
-        Integer userId = 1;
+        Integer userId = (Integer) request.getAttribute("userId");
 
         List<Event> events = eventService.findAllEvents(userId, bucketId);
         return new ResponseEntity<>(events, HttpStatus.OK);
@@ -52,7 +51,7 @@ public class EventController {
 
     @GetMapping("/{eventId}")
     public ResponseEntity<Event> findEventById(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId, @PathVariable("eventId") Integer eventId) {
-        Integer userId = 1;
+        Integer userId = (Integer) request.getAttribute("userId");
 
         Event event = eventService.findEventById(userId, bucketId, eventId);
         return new ResponseEntity<>(event, HttpStatus.OK);

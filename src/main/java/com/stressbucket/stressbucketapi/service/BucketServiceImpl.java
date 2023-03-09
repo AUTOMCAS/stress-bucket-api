@@ -22,23 +22,23 @@ public class BucketServiceImpl implements BucketService{
         }
 
         Integer bucketId = bucketRepository.create(userId, name, stressLevel);
-        return bucketRepository.findById(bucketId);
+        return bucketRepository.findById(userId, bucketId);
     }
 
     @Override
-    public Bucket findBucketById(Integer bucketId) throws ResourceNotfoundException {
-        return bucketRepository.findById(bucketId);
+    public Bucket findBucketById(Integer userId, Integer bucketId) throws ResourceNotfoundException {
+        return bucketRepository.findById(userId, bucketId);
     }
 
 
     @Override
-    public void removeBucket(Integer bucketId) throws ResourceNotfoundException {
-        this.findBucketById(bucketId);
-        bucketRepository.removeById(bucketId);
+    public void removeBucket(Integer userId, Integer bucketId) throws ResourceNotfoundException {
+        this.findBucketById(userId, bucketId);
+        bucketRepository.removeById(userId, bucketId);
     }
 
     @Override
-    public void updateBucket(Integer bucketId, Bucket bucket) throws BadReqestException {
-        bucketRepository.update(bucketId, bucket);
+    public void updateBucket(Integer userId, Integer bucketId, Bucket bucket) throws BadReqestException {
+        bucketRepository.update(userId, bucketId, bucket);
     }
 }

@@ -24,8 +24,8 @@ public class EventServiceImpl implements EventService{
     @Override
     public Event createEvent(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange) throws BadReqestException {
         try {
-            Bucket bucket = bucketRepository.findById(bucketId);
-            this.updateBucket(bucket, stressLevelChange);
+            Bucket bucket = bucketRepository.findById(userId, bucketId);
+            this.updateBucketStressLevel(userId, bucket, stressLevelChange);
             Integer updatedStressLevel = bucket.getStressLevel();
 
             Integer eventId = eventRepository.create(userId, bucketId, stressType, description, dateTime, stressLevelChange, updatedStressLevel);
@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService{
         return eventRepository.findById(userId, bucketId, eventId);
     }
 
-    private void updateBucket(Bucket bucket, Integer stressLevelChange) throws Exception{
+    private void updateBucketStressLevel(Integer userId, Bucket bucket, Integer stressLevelChange) throws Exception{
         Integer updatedStressLevel = bucket.getStressLevel() + stressLevelChange;
         if (updatedStressLevel > 100) {
             throw new Exception("Resulting stress level exceeds 100");
@@ -54,7 +54,7 @@ public class EventServiceImpl implements EventService{
             throw new Exception("Resulting stress level less than 0");
         }else {
             bucket.setStressLevel(updatedStressLevel);
-            bucketRepository.update(bucket.getId(), bucket);
+            bucketRepository.update(userId, bucket.getId(), bucket);
         }
     }
 

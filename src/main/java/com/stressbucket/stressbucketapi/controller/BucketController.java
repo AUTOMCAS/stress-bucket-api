@@ -19,8 +19,8 @@ public class BucketController {
     private BucketService bucketService;
 
     @PostMapping("")
-    public ResponseEntity<Bucket> createBucket(@RequestBody Map<String, Object> bucketMap) {
-        Integer userId = (Integer) bucketMap.get("userId");
+    public ResponseEntity<Bucket> createBucket(HttpServletRequest request, @RequestBody Map<String, Object> bucketMap) {
+        Integer userId = (Integer) request.getAttribute("userId");
         String name = (String) bucketMap.get("name");
         Integer stressLevel = (Integer) bucketMap.get("stressLevel");
 
@@ -30,13 +30,15 @@ public class BucketController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Bucket> getBucketById(HttpServletRequest request, @PathVariable("id") Integer bucketId) {
-        Bucket bucket = bucketService.findBucketById(bucketId);
+        int userId = (Integer) request.getAttribute("userId");
+        Bucket bucket = bucketService.findBucketById(userId, bucketId);
         return new ResponseEntity<>(bucket, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteBucket(HttpServletRequest request, @PathVariable("id") Integer bucketId) {
-        bucketService.removeBucket(bucketId);
+        int userId = (Integer) request.getAttribute("userId");
+        bucketService.removeBucket(userId, bucketId);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -44,7 +46,8 @@ public class BucketController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Boolean>> updateBucket(HttpServletRequest request, @PathVariable("id") Integer bucketId, @RequestBody Bucket bucket){
-        bucketService.updateBucket(bucketId, bucket);
+        int userId = (Integer) request.getAttribute("userId");
+        bucketService.updateBucket(userId, bucketId, bucket);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
 

@@ -25,6 +25,17 @@ public class EventRepositoryImpl implements EventRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private RowMapper<Event> eventRowMapper = ((rs, rowNum) -> {
+        return new Event(rs.getInt("ID"),
+                rs.getInt("USER_ID"),
+                rs.getInt("BUCKET_ID"),
+                rs.getString("STRESS_TYPE"),
+                rs.getString("DESCRIPTION"),
+                rs.getObject("DATE_TIME", LocalDateTime.class),
+                rs.getInt("STRESS_LEVEL_CHANGE"),
+                rs.getInt("RESULTING_STRESS_LEVEL"));
+    });
+
     @Override
     public Integer create(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange, Integer resultingStressLevel) throws BadReqestException {
         try {
@@ -60,14 +71,4 @@ public class EventRepositoryImpl implements EventRepository {
         return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{userId, bucketId}, eventRowMapper);
     }
 
-    private RowMapper<Event> eventRowMapper = ((rs, rowNum) -> {
-        return new Event(rs.getInt("ID"),
-                rs.getInt("USER_ID"),
-                rs.getInt("BUCKET_ID"),
-                rs.getString("STRESS_TYPE"),
-                rs.getString("DESCRIPTION"),
-                rs.getObject("DATE_TIME", LocalDateTime.class),
-                rs.getInt("STRESS_LEVEL_CHANGE"),
-                rs.getInt("RESULTING_STRESS_LEVEL"));
-    });
 }

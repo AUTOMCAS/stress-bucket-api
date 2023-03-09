@@ -16,13 +16,19 @@ import java.sql.Statement;
 @Repository
 public class BucketRepositoryImpl implements BucketRepository{
 
-    private static final String SQL_CREATE = "INSERT INTO BUCKETS( ID, USER_ID, NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?, ?)";
-    private static final String SQL_FIND_BY_ID = "SELECT ID, USER_ID, NAME, STRESS_LEVEL " + "FROM BUCKETS WHERE ID = ?";
-    private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE ID = ?";
-    private static final String SQL_UPDATE = "UPDATE BUCKETS SET NAME = ?, STRESS_LEVEL = ? " + "WHERE ID = ?";
-
+    private static final String SQL_CREATE = "INSERT INTO BUCKETS(ID, USER_ID, NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?, ?)";
+    private static final String SQL_FIND_BY_ID = "SELECT ID, USER_ID, NAME, STRESS_LEVEL FROM BUCKETS WHERE ID = ? AND USER_ID = ?";
+    private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE ID = ? AND USER_ID = ?";
+    private static final String SQL_UPDATE = "UPDATE BUCKETS SET NAME = ?, STRESS_LEVEL = ? WHERE ID = ? AND USER_ID = ?";
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+     private RowMapper<Bucket> bucketRowMapper = ((rs, rowNum) -> {
+        return new Bucket(rs.getInt("ID"),
+                rs.getInt("USER_ID"),
+                rs.getString("NAME"),
+                rs.getInt("STRESS_LEVEL"));
+    });
 
     @Override
     public Integer create(Integer userId, String name, Integer stressLevel) throws BadReqestException {
@@ -42,26 +48,18 @@ public class BucketRepositoryImpl implements BucketRepository{
     }
 
     @Override
-    public Bucket findById(Integer bucketId) throws BadReqestException {
+    public Bucket findById(Integer userId, Integer bucketId) throws BadReqestException {
         try {
-            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId}, bucketRowMapper);
+            return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{bucketId, userId}, bucketRowMapper);
         }catch (Exception e) {
-            throw new BadReqestException("Event not found");
+            throw new BadReqestException("Bucket not found" + e);
         }
     }
 
-//    Convert row into an object
-    private RowMapper<Bucket> bucketRowMapper = ((rs, rowNum) -> {
-        return new Bucket(rs.getInt("ID"),
-                rs.getInt("USER_ID"),
-                rs.getString("NAME"),
-                rs.getInt("STRESS_LEVEL"));
-    });
-
     @Override
-    public void removeById(Integer bucketId) throws BadReqestException {
+    public void removeById(Integer userId, Integer bucketId) throws BadReqestException {
         try {
-            jdbcTemplate.update(SQL_DELETE_BUCKET, new Object[]{bucketId});
+            jdbcTemplate.update(SQL_DELETE_BUCKET, new Object[]{bucketId, userId});
         }catch (Exception e) {
             if (e.getMessage() == "Incorrect result size: expected 1, actual 0") {
                 throw new BadReqestException("Event not found");
@@ -71,11 +69,13 @@ public class BucketRepositoryImpl implements BucketRepository{
     }
 
     @Override
-    public void update(Integer bucketId, Bucket bucket) throws BadReqestException {
+    public void update(Integer userId, Integer bucketId, Bucket bucket) throws BadReqestException {
         try {
-            jdbcTemplate.update(SQL_UPDATE, new Object[]{bucket.getName(), bucket.getStressLevel(), bucketId});
+            jdbcTemplate.update(SQL_UPDATE, new Object[]{bucket.getName(), bucket.getStressLevel(), bucketId, userId});
         }catch (Exception e) {
-            throw new BadReqestException("Invalid request");
+            throw new BadReqestException("Invalid request" + e);
         }
     }
+
+
 }

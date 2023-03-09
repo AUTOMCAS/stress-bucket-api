@@ -27,8 +27,9 @@ Token is required for successful requests and responses to buckets and events en
 Token must be provided with `Authorization` header in the form `Bearer [token]`
 
 ### USERS
-Register a user:    
+#### Register a user    
 `POST /api/users/register`
+JSON request body:
 ```
 {
 "username": "User",
@@ -36,8 +37,9 @@ Register a user:
 }
 ```
 
-Login:    
-`POST /api/users/login`    
+#### Login    
+`POST /api/users/login`   
+JSON request body:
 ```
 {
 "username": "User",
@@ -46,7 +48,7 @@ Login:
 ```
 
 ### BUCKETS
-Create a Stress Bucket:     
+#### Create a Stress Bucket     
 `POST /api/buckets`    
 JSON request body:    
 ```
@@ -56,13 +58,13 @@ JSON request body:
 }
 ```
 
-Get Bucket by ID:    
+#### Get Bucket by ID    
 `GET /api/buckets/{bucketId}`    
 
-Delete Bucket by ID:    
+#### Delete Bucket by ID    
 `DELETE /api/buckets/{bucketId}`    
 
-Update Bucket by ID:    
+#### Update Bucket by ID    
 `PUT /api/buckets/{bucketId}`    
 JSON request body:    
 ```
@@ -73,7 +75,7 @@ JSON request body:
 ```    
 
 ### EVENTS    
-Create an Event for a Bucket:    
+#### Create an Event for a Bucket    
 `POST /api/buckets/{bucketId}/events`    
 JSON request body:    
 ```
@@ -85,13 +87,13 @@ JSON request body:
 }
 ```
 
-Get all Events for a Bucket:    
+#### Get all Events for a Bucket    
 `GET /api/buckets/{bucketId}/events`    
 
-Get Events by ID for a Bucket:    
+#### Get Events by ID for a Bucket    
 `GET /api/buckets/{bucketId}/events/{eventId}`    
 
-Get Events by Stress Type for a Bucket:    
+#### Get Events by Stress Type for a Bucket      
 `GET /api/buckets/{bucketId}/events/stressType/Release`    
 
 

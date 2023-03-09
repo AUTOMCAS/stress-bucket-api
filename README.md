@@ -1,6 +1,9 @@
 # Stress Bucket API
 The stress bucket is a model to help understand stress and wellbeing.
 ![stressbucket](https://mhukcdn.s3.eu-west-2.amazonaws.com/wp-content/uploads/2018/06/29152418/stress-bucketforblog-722x434.png)
+![stressbucket](https://user-images.githubusercontent.com/105917288/224075978-72a45f54-88f3-4738-a6b2-408dc20a43e5.jpeg)
+
+
 
 Backend Stress Bucket API.
 

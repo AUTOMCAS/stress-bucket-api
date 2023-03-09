@@ -1,6 +1,5 @@
 # Stress Bucket API
 The stress bucket is a model to help understand stress and wellbeing.
-![stressbucket](https://mhukcdn.s3.eu-west-2.amazonaws.com/wp-content/uploads/2018/06/29152418/stress-bucketforblog-722x434.png)
 ![stressbucket](https://user-images.githubusercontent.com/105917288/224075978-72a45f54-88f3-4738-a6b2-408dc20a43e5.jpeg)
 
 
@@ -28,62 +27,72 @@ Token is required for successful requests and responses to buckets and events en
 Token must be provided with `Authorization` header in the form `Bearer [token]`
 
 ### USERS
-Register a user:
+Register a user:    
 `POST /api/users/register`
-`{
+```
+{
 "username": "User",
 "password": "password"
-}`
+}
+```
 
-Login:
-`POST /api/users/login`
-`{
+Login:    
+`POST /api/users/login`    
+```
+{
 "username": "User",
 "password": "password"
-}`
+}
+```
 
 ### BUCKETS
-Create a Stress Bucket: 
-`POST /api/buckets`
-JSON request body:
-`{
+Create a Stress Bucket:     
+`POST /api/buckets`    
+JSON request body:    
+```
+{
 "name": "Chris' bucket 3",
 "stressLevel": 50
-}`
+}
+```
 
-Get Bucket by ID:
-`GET /api/buckets/{bucketId}`
+Get Bucket by ID:    
+`GET /api/buckets/{bucketId}`    
 
-Delete Bucket by ID:
-`DELETE /api/buckets/{bucketId}`
+Delete Bucket by ID:    
+`DELETE /api/buckets/{bucketId}`    
 
-Update Bucket by ID:
-`PUT /api/buckets/{bucketId}`
-JSON request body:
-`{
+Update Bucket by ID:    
+`PUT /api/buckets/{bucketId}`    
+JSON request body:    
+```
+{
 "name": "Updated bucket",
 "stressLevel": 60
-}`
+}
+```    
 
-### EVENTS
-Create an Event for a Bucket:
-`POST /api/buckets/{bucketId}/events`
-JSON request body:
-`{
+### EVENTS    
+Create an Event for a Bucket:    
+`POST /api/buckets/{bucketId}/events`    
+JSON request body:    
+```
+{
 "stressType": "Release",
 "description": "Pet dog",
 "dateTime": "2019-02-03 10:08:02",
 "stressLevelChange": 10
-}`
+}
+```
 
-Get all Events for a Bucket:
-`GET /api/buckets/{bucketId}/events`
+Get all Events for a Bucket:    
+`GET /api/buckets/{bucketId}/events`    
 
-Get Events by ID for a Bucket:
-`GET /api/buckets/{bucketId}/events/{eventId}`
+Get Events by ID for a Bucket:    
+`GET /api/buckets/{bucketId}/events/{eventId}`    
 
-Get Events by Stress Type for a Bucket:
-`GET /api/buckets/{bucketId}/events/stressType/Release`
+Get Events by Stress Type for a Bucket:    
+`GET /api/buckets/{bucketId}/events/stressType/Release`    
 
 
 ## Setup

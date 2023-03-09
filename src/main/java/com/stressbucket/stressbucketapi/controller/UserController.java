@@ -3,6 +3,8 @@ package com.stressbucket.stressbucketapi.controller;
 import com.stressbucket.stressbucketapi.Constants;
 import com.stressbucket.stressbucketapi.model.User;
 import com.stressbucket.stressbucketapi.service.UserService;
+import io.github.cdimascio.dotenv.Dotenv;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,8 @@ public class UserController {
 
     private Map<String, String> generateJWTToken(User user) {
         long timestamp = System.currentTimeMillis();
-        String token = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
+        Dotenv dotenv = Dotenv.load();
+        String token = Jwts.builder().signWith(SignatureAlgorithm.HS256, dotenv.get("JWT_SECRET_KEY"))
                 .setIssuedAt(new Date(timestamp))
                 .setExpiration(new Date(timestamp + Constants.TOKEN_VALIDITY))
                 .claim("userId", user.getUserId())
@@ -54,3 +57,4 @@ public class UserController {
     }
 
 }
+

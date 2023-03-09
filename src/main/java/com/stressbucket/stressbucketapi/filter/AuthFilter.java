@@ -1,6 +1,7 @@
 package com.stressbucket.stressbucketapi.filter;
 
 import com.stressbucket.stressbucketapi.Constants;
+import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -17,6 +18,8 @@ import java.io.IOException;
 // Filter intercepts request and checks token validity
 public class AuthFilter extends GenericFilterBean {
 
+
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
@@ -28,7 +31,8 @@ public class AuthFilter extends GenericFilterBean {
             if(authHeaderArr.length > 1 && authHeaderArr[1] != null) {
                 String token = authHeaderArr[1];
                 try {
-                    Claims claims = Jwts.parser().setSigningKey(Constants.API_SECRET_KEY)
+                    Dotenv dotenv = Dotenv.load();
+                    Claims claims = Jwts.parser().setSigningKey(dotenv.get("JWT_SECRET_KEY"))
                             .parseClaimsJws(token).getBody();
                     httpRequest.setAttribute("userId", Integer.parseInt(claims.get("userId").toString()));
                 }catch (Exception e) {

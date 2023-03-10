@@ -47,6 +47,7 @@ public class BucketRepositoryImpl implements BucketRepository{
         }
     }
 
+
     @Override
     public Bucket findById(Integer userId, Integer bucketId) throws BadReqestException {
         try {

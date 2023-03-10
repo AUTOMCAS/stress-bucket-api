@@ -1,13 +1,17 @@
 package com.stressbucket.stressbucketapi;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+
 class StressBucketApiApplicationTestsService {
 
 	@Test
-	void contextLoads() {
+	void addw() {
+
+
 	}
+
 
 }

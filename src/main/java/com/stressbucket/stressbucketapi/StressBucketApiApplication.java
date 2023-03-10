@@ -27,8 +27,6 @@ public class StressBucketApiApplication {
 		registrationBean.setFilter(new CorsFilter(source));
 		registrationBean.setOrder(0);
 		return registrationBean;
-
-
 	}
 	@Bean
 	public FilterRegistrationBean<AuthFilter> filterFilterRegistrationBean(){

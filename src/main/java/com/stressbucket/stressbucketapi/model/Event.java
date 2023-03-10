@@ -8,17 +8,17 @@ public class Event {
     private Integer bucketId;
     private String stressType;
     private String description;
-    private LocalDateTime timeDate;
+    private LocalDateTime dateTime;
     private Integer stressLevelChange;
     private Integer resultingStressLevel;
 
-    public Event(Integer eventId, Integer userId, Integer bucketId, String stressType, String description, LocalDateTime timeDate, Integer stressLevelChange, Integer resultingStressLevel) {
+    public Event(Integer eventId, Integer userId, Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange, Integer resultingStressLevel) {
         this.eventId = eventId;
         this.userId = userId;
         this.bucketId = bucketId;
         this.stressType = stressType;
         this.description = description;
-        this.timeDate = timeDate;
+        this.dateTime = dateTime;
         this.stressLevelChange = stressLevelChange;
         this.resultingStressLevel = resultingStressLevel;
     }
@@ -63,12 +63,12 @@ public class Event {
         this.description = description;
     }
 
-    public LocalDateTime getTimeDate() {
-        return timeDate;
+    public LocalDateTime getDateTime() {
+        return dateTime;
     }
 
     public void setTimeDate(LocalDateTime timeDate) {
-        this.timeDate = timeDate;
+        this.dateTime = timeDate;
     }
 
     public Integer getStressLevelChange() {

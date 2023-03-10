@@ -15,7 +15,7 @@ import java.sql.Statement;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository{
-    private static final String SQL_CREATE = "INSERT INTO USERS(USER_ID, USERNAME, PASSWORD) VALUES(NEXTVAL('USERS_SEQ'), ?, ?)";
+    private static final String SQL_CREATE = "INSERT INTO USERS(USERNAME, PASSWORD) VALUES(?, ?)";
     private static final String SQL_COUNT_BY_USERNAME = "SELECT COUNT(*) FROM USERS WHERE USERNAME = ?";
     private static final String SQL_FIND_BY_ID = "SELECT USER_ID, USERNAME, PASSWORD FROM USERS WHERE USER_ID = ?";
     private static final String SQL_FIND_BY_USERNAME = "SELECT USER_ID, USERNAME, PASSWORD FROM USERS WHERE USERNAME = ?";

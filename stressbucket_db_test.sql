@@ -5,7 +5,6 @@ CREATE USER stressbucket WITH password 'password';
 CREATE database stressbucket_db_test WITH template=template0 owner=stressbucket;
 \CONNECT stressbucket_db_test;
 
-
 ALTER DEFAULT PRIVILEGES GRANT ALL ON tables TO stressbucket;
 ALTER DEFAULT PRIVILEGES GRANT ALL ON sequences TO stressbucket;
 
@@ -35,7 +34,6 @@ date_time TIMESTAMP NOT NULL,
 FOREIGN KEY (user_id) REFERENCES users (user_id),
 FOREIGN KEY (bucket_id) REFERENCES buckets (bucket_id)
 );
-
 
 CREATE sequence users_seq increment 1 start 1;
 CREATE sequence buckets_seq increment 1 start 1;

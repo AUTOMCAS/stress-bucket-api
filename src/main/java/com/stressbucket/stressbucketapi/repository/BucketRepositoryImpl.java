@@ -16,7 +16,7 @@ import java.sql.Statement;
 @Repository
 public class BucketRepositoryImpl implements BucketRepository{
 
-    private static final String SQL_CREATE = "INSERT INTO BUCKETS(BUCKET_ID, USER_ID, NAME, STRESS_LEVEL) VALUES(NEXTVAL('BUCKETS_SEQ'), ?, ?, ?)";
+    private static final String SQL_CREATE = "INSERT INTO BUCKETS(USER_ID, NAME, STRESS_LEVEL) VALUES(?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT BUCKET_ID, USER_ID, NAME, STRESS_LEVEL FROM BUCKETS WHERE BUCKET_ID = ? AND USER_ID = ?";
     private static final String SQL_DELETE_BUCKET = "DELETE FROM BUCKETS WHERE BUCKET_ID = ? AND USER_ID = ?";
     private static final String SQL_UPDATE = "UPDATE BUCKETS SET NAME = ?, STRESS_LEVEL = ? WHERE BUCKET_ID = ? AND USER_ID = ?";

@@ -21,6 +21,7 @@ public class EventServiceImpl implements EventService{
     private final EventRepository eventRepository;
 
     private final BucketRepository bucketRepository;
+
     @Autowired
     public EventServiceImpl(EventRepository eventRepository, BucketRepository bucketRepository) {
         this.eventRepository = eventRepository;

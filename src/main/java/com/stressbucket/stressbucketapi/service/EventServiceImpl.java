@@ -12,15 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
+
 
 @Service
 @Transactional
 public class EventServiceImpl implements EventService{
+
+    private final EventRepository eventRepository;
+
+    private final BucketRepository bucketRepository;
     @Autowired
-    private EventRepository eventRepository;
-    @Autowired
-    private BucketRepository bucketRepository;
+    public EventServiceImpl(EventRepository eventRepository, BucketRepository bucketRepository) {
+        this.eventRepository = eventRepository;
+        this.bucketRepository = bucketRepository;
+    }
 
     @Override
     public Event createEvent(Integer userId, Integer bucketId, String stressType, String description, LocalDateTime dateTime, Integer stressLevelChange) throws BadReqestException {

@@ -4,7 +4,6 @@ import com.stressbucket.stressbucketapi.Constants;
 import com.stressbucket.stressbucketapi.model.User;
 import com.stressbucket.stressbucketapi.service.UserService;
 import io.github.cdimascio.dotenv.Dotenv;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, Object> userMap) {

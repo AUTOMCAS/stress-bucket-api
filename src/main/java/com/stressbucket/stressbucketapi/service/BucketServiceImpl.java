@@ -12,8 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BucketServiceImpl implements BucketService{
 
+
+    private final BucketRepository bucketRepository;
     @Autowired
-    private BucketRepository bucketRepository;
+    public BucketServiceImpl(BucketRepository bucketRepository) {
+        this.bucketRepository = bucketRepository;
+    }
 
     @Override
     public Bucket createBucket(Integer userId, String name, Integer stressLevel) throws BadReqestException {

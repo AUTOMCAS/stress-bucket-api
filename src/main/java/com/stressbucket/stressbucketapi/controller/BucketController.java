@@ -15,8 +15,12 @@ import java.util.Map;
 @RequestMapping("/api/buckets")
 public class BucketController {
 
+    private final BucketService bucketService;
+
     @Autowired
-    private BucketService bucketService;
+    public BucketController(BucketService bucketService) {
+        this.bucketService = bucketService;
+    }
 
     @PostMapping("")
     public ResponseEntity<Bucket> createBucket(HttpServletRequest request, @RequestBody Map<String, Object> bucketMap) {

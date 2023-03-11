@@ -22,8 +22,12 @@ public class EventController {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateTime;
 
+    private final EventService eventService;
+
     @Autowired
-    private EventService eventService;
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @PostMapping("")
     public ResponseEntity<Event> createEvent(HttpServletRequest request, @PathVariable("bucketId") Integer bucketId, @RequestBody Map<String, Object> eventMap){

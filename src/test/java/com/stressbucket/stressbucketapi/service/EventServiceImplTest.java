@@ -34,7 +34,7 @@ class EventServiceImplTest {
     }
 
     @Test
-    void shouldInvokeCreateEvent() {
+    void shouldCreateEvent() {
         Integer userId = 1;
         Integer bucketId = 1;
         String stressType = "Stress type";
@@ -54,7 +54,6 @@ class EventServiceImplTest {
         verify(eventRepository, times(1)).create(eq(userId), eq(bucketId), eq(stressType), eq(description), eq(dateTime), eq(stressLevelChange), anyInt());
         verify(eventRepository, times(1)).findById(eq(userId), eq(bucketId), eq(1));
     }
-
 
     @Test
     void shouldInvokeFindAllEvents() {

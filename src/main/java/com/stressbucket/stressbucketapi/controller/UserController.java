@@ -35,7 +35,7 @@ public class UserController {
         String username = (String) userMap.get("username");
         String password = (String) userMap.get("password");
         User user = userService.register(username, password);
-        return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
+        return new ResponseEntity<>(generateJWTToken(user),  HttpStatus.CREATED);
     }
 
     @PostMapping("/login")

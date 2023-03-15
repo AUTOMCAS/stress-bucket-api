@@ -100,7 +100,7 @@ JSON request body:
 `GET /api/buckets/{bucketId}/events/stressType/Release`    
 
 
-## Setup
+## Setup and Run
 
 ### Database
 Requirements: PostgreSQL setup and running.
@@ -117,4 +117,17 @@ Drop DB and re-seed:
 dropdb -f stressbucket_db
 createdb stressbucket_db
 psql stressbucket_db < stressbucket_db.sql
+```
+
+### Run development branch
+Connects to Development DB
+From inside the main directory:
+```
+ mvn spring-boot:run -Dspring-boot.run.profiles=dev
+```
+### Run test branch
+Connects to test DB
+From inside the main directory:
+```
+ mvn spring-boot:run -Dspring-boot.run.profiles=test
 ```

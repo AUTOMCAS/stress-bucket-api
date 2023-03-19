@@ -28,7 +28,7 @@ Token must be provided with `Authorization` header in the form `Bearer [token]`
 #### Register a user    
 `POST /api/users/register`
 
-JSON request body:    
+JSON POST request body example:    
 ```
 {
 "username": "User",
@@ -39,7 +39,7 @@ JSON request body:
 #### Login    
 `POST /api/users/login`
 
-JSON request body:
+JSON POST request body example:
 ```
 {
 "username": "User",
@@ -51,7 +51,7 @@ JSON request body:
 #### Create a Stress Bucket     
 `POST /api/buckets`    
 
-JSON request body:    
+JSON POST request body example:    
 ```
 {
 "name": "Chris' bucket 3",
@@ -68,7 +68,7 @@ JSON request body:
 #### Update Bucket by ID    
 `PUT /api/buckets/{bucketId}`  
 
-JSON request body:    
+JSON PUT request body example:    
 ```
 {
 "name": "Updated bucket",
@@ -80,7 +80,7 @@ JSON request body:
 #### Create an Event for a Bucket    
 `POST /api/buckets/{bucketId}/events`  
 
-JSON request body:    
+JSON POST request body example:    
 ```
 {
 "stressType": "Release",

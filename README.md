@@ -1,5 +1,5 @@
-# Stress Bucket API
-### Backend Stress Bucket API.
+# Stress Bucket RESTful API
+### Backend Stress Bucket RESTful API.
 The stress bucket is a model to help understand stress and wellbeing.
 
 ![stressbucket](https://user-images.githubusercontent.com/105917288/224075978-72a45f54-88f3-4738-a6b2-408dc20a43e5.jpeg)        
